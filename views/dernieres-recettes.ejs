@@ -1,0 +1,23 @@
+<!-- ===========================================================================================
+// ESJ01_CRUD  /  dossier: C:\WORK\NODEJS\ESJ01_CRUD  /  fichier: views/dernieres-recettes.ejs
+// ============================================================================================= -->
+<!-- dans body: PAGE rendu par le routeur recetteRoutes, fonction exploreDernieresRecettes       -->
+<h1 class="pb-4">Dernières recettes</h1>
+
+<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+  <!-- SI tableau existe: BOUCLE sur le tableau des recettes -->
+  <% if(locals.tabRecettes && locals.tabRecettes.length) { %>
+    <% tabRecettes.forEach(function(itemRecette, index){ %>
+      <!-- lien vers une recette par son id -->
+      <a href="<%= urlUneRecetteParSonID + itemRecette._id %>" class="col text-center category__link">
+        <div class="category__img category__img--large shadow">
+          <!-- image -->
+          <img src="<%= lienVersImage + itemRecette.image %>" alt="<%= itemRecette.nom %>" loading="lazy">
+        </div>
+        <div class="pt-1"><%= itemRecette.nom %></div>
+      </a>
+    <% }) %>
+  <% } else { %>
+    <p>Aucun élément trouvé.</p>
+  <% } %> 
+</div>

@@ -1,0 +1,194 @@
+<!-- ===========================================================================================
+// ESJ01_CRUD  /  dossier: C:\WORK\NODEJS\ESJ01_CRUD  /  fichier: views/index.ejs
+// ============================================================================================= -->
+<!-- dans body: PAGE rendu par le routeur recetteRoutes, fonction homepage: index.ejs   =====    -->
+
+<!-- div (1) row flex-lg - le premier BLOC avec image à droite et texte à gauche + deux liens    -->
+<div class="row flex-lg-row-reverse align-items-center g-5 py-4 mb-4">
+  <!-- image png  à droite ? -->
+  <div class="col-12 col-lg-6">
+    <img src="/img/hero-image.png" width="607" height="510" class="d-block mx-lg-auto img-fluid" loading="lazy" alt="Cooking With Node.js">
+  </div>
+  <!-- div colonne texte à gauche de l'image avec les eux liens  ? -->
+  <div class="col-12 col-lg-6">
+    <h1 class="display-5 fw-bold mb-3">Vaste sélection d'idées de recettes délicieuses</h1>
+    <p class="lead">
+      Explorez notre vaste sélection de délicieuses idées de recettes, notamment : des desserts faciles, de délicieuses idées de dîners végétaliens et végétariens, de superbes recettes de pâtes, des pâtisseries rapides, des repas familiaux et des recettes sans gluten.
+    </p>
+    <!-- les deux liens -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+      <a href="<%= urlExploreDernieresRecettes %>" class="btn btn-primary btn-dark btn-lg px-4 me-md-2">Explorer les dernières recettes</a>
+      <a href="<%= urlExploreHasard %>" class="btn btn-outline-secondary btn-lg px-4 me-md-2">Afficher au hasard</a>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- div (2) row row-cols-2 - Catégories    =====    -->
+<!-- DEBUT liste des Catégories   ===== -->
+<div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 py-4">
+  <!-- SI tableau existe: BOUCLE sur le tableau des catégories-->
+  <% if(locals.tabCategories && locals.tabCategories.length) { %>
+    <% tabCategories.forEach(function(itemCategorie, index) { %>
+      <!-- lien: une Catégorie par id = id  -->
+      <a href="<%= urlExploreUneCategorieParID + itemCategorie._id %>" class="col text-center category__link">
+        <div class="category__img shadow">
+          <img src="../../img/<%- itemCategorie.image %>" alt="<%- itemCategorie.nom %>" loading="lazy">
+        </div>
+        <div class="pt-1"><%- itemCategorie.nom %></div>
+      </a>
+    <% }) %>
+  <% } %>
+
+  <!-- lien: Toutes les Catégories -->
+  <a href="<%= urlExploreToutesCategories %>" class="col text-center category__link">
+    <div class="category__img shadow">
+      <img src="../../img/view-all.jpg" alt="Voir toute Categories" loading="lazy">
+    </div>
+    <div class="pt-1">Voir tout</div>
+  </a>
+
+</div>
+<!-- FIN   liste des Catégories   ===== -->
+
+
+<!-- section (3) pb-4 pt-4    =====   -->
+<!-- DEBUT Dernière recette   =====   -->
+<section class="pb-4 pt-4">
+  <div class="d-flex mb-2 align-items-center">
+    <h2>Dernières recettes</h2>
+    <!-- lien -->
+    <a href="<%= urlExploreDernieresRecettes %>" class="ms-auto">Voir plus</a>
+  </div>
+
+  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <!-- SI food existe: BOUCLE sur food -->
+    <% if(locals.food) { %>
+      <% food.latest.forEach(function(itemRecette, index){ %>
+        <!-- lien: une recette par id = ._id -->
+        <a href="<%= urlExploreUneRecetteParID + itemRecette._id %>" class="col text-center category__link">
+          <div class="category__img category__img--large shadow">
+            <!-- img image exemple: /uploads/veggie-pad-thai.jpg   -->
+            <img src="/uploads/<%= itemRecette.image %>" alt="<%= itemRecette.nom %>" loading="lazy">
+          </div>
+          <div class="pt-1"><%= itemRecette.nom %></div>
+        </a>
+      <% }) %>
+    <% } else { %>
+      <!-- SINON: food vide -->
+      <p>Aucun élément trouvé.</p>
+    <% } %>
+  </div>
+</section>
+<!-- FIN   Dernière recette   =====   -->
+
+
+<!-- section (4) pb-4 pt-4          =====   -->
+<!-- DEBUT Recettes thaïlandaises   =====   -->
+<section class="pb-4 pt-4">
+  <div class="d-flex mb-2 align-items-center">
+    <h2>Recettes thaïlandaises</h2>
+    <!-- lien: une catégorie par id = nom Thai -->
+    <a href="/api/recette/categories/Thai" class="ms-auto">Voir plus</a>
+  </div>
+
+  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <!-- SI thai existe: BOUCLE sur le tableau des recette thai -->
+    <% if(typeof food.thai !== 'undefined' && food.thai.length > 0) { %>
+      <% food.thai.forEach(function(itemRecette, index){ %>
+        <!-- lien: une recette par id = ._id -->
+        <a href="/api/recette/une-recette/<%= itemRecette._id %>" class="col text-center category__link">
+          <div class="category__img category__img--large shadow">
+            <!-- img image exemple: /uploads/thai-green-curry.jpg   -->
+            <img src="/uploads/<%= itemRecette.image %>" alt="<%= itemRecette.nom %>" loading="lazy">
+          </div>
+          <div class="pt-1"><%= itemRecette.nom %></div>
+        </a>
+      <% }) %>
+    <% } else { %>
+      <!-- SINON: liste vide -->
+      <p>Aucun élément trouvé.</p>
+    <% } %>
+  </div>
+</section>
+<!-- FIN   Recettes thaïlandaises   =====   -->
+
+
+<!-- section (5) pb-4 pt-4        =====   -->
+<!-- DEBUT Recettes américaines   =====   -->
+<section class="pb-4 pt-4">
+  <div class="d-flex mb-2 align-items-center">
+    <h2>Recettes américaines</h2>
+    <!-- lien: une catégorie par id = nom American -->
+    <a href="/api/recette/categories/American" class="ms-auto">Voir plus</a>
+  </div>
+
+  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <!-- SI american existe: BOUCLE sur le tableau des recette american -->
+    <% if(food.american != '') { %>
+      <% food.american.forEach(function(itemRecette, index){ %>
+        <!-- lien: une recette par id = ._id -->
+        <a href="/api/recette/une-recette/<%= itemRecette._id %>" class="col text-center category__link">
+          <div class="category__img category__img--large shadow">
+            <!-- img image exemple: /uploads/crab-cakes.jpg   -->
+            <img src="/uploads/<%= itemRecette.image %>" alt="<%= itemRecette.nom %>" loading="lazy">
+          </div>
+          <div class="pt-1"><%= itemRecette.nom %></div>
+        </a>
+      <% }) %>
+    <% } else { %>
+      <!-- SINON: liste vide -->
+      <p>Aucun élément trouvé.</p>
+    <% } %>
+  </div>
+</section>
+<!-- FIN   Recettes américaines   =====   -->
+
+
+<!-- section (6) pb-4 pt-4      =====   -->
+<!-- DEBUT Recettes chinoises   =====   -->
+<section class="pb-4 pt-4">
+  <div class="d-flex mb-2 align-items-center">
+    <h2>Recettes chinoises</h2>
+    <!-- lien: une catégorie par id = nom Chinese -->
+    <a href="/api/recette/categories/Chinese" class="ms-auto">Voir plus</a>
+  </div>
+
+  <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <!-- SI chinese existe: BOUCLE sur le tableau des recette chinese -->
+    <% if(food.chinese != '') { %>
+      <% food.chinese.forEach(function(itemRecette, index){ %>
+        <!-- lien: une recette par id = ._id -->
+        <a href="/api/recette/une-recette/<%= itemRecette._id %>" class="col text-center category__link">
+          <div class="category__img category__img--large shadow">
+            <!-- img image exemple: /uploads/chinese-steak-tofu-stew.jpg   -->
+            <img src="/uploads/<%= itemRecette.image %>" alt="<%= itemRecette.nom %>" loading="lazy">
+          </div>
+          <div class="pt-1"><%= itemRecette.nom %></div>
+        </a>
+      <% }) %>
+    <% } else { %>
+      <!-- SINON: liste vide -->
+      <p>Aucun élément trouvé.</p>
+    <% } %>
+  </div>
+</section>
+<!-- FIN   Recettes chinoises   =====   -->
+
+
+<!-- section (7) px-4 py-5         =====   -->
+<!-- DEBUT Soumettre une recette   =====   -->
+<section class="px-4 py-5 my-5 text-center">
+  <img src="/img/publish-recipe.png" class="d-block mx-auto mb-4 img-fluid" alt="Publish your recipe for FREE today" width="566" height="208" loading="lazy">
+  <h1 class="display-5 fw-bold">Publiez votre recette GRATUITEMENT aujourd'hui</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">Publiez gratuitement votre recette devant des milliers de personnes.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <!-- lien: Soumettre une recette -->
+      <a href="<%= urlSoumettreUneRecette %>" class="btn btn-primary btn-dark btn-lg">Soumettre une recette</a>
+    </div>
+  </div>
+</section>
+<!-- FIN   Soumettre une recette   =====   -->

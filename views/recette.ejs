@@ -1,0 +1,53 @@
+<!-- ===========================================================================================
+// ESJ01_CRUD  /  dossier: C:\WORK\NODEJS\ESJ01_CRUD  /  fichier: views/recette.ejs
+// ============================================================================================= -->
+<!-- dans body: PAGE rendu par le routeur recetteRoutes, fonction exploreOneRecette: recette.ejs -->
+
+<!-- SI recette existe: -->
+<% if(locals.recette) { %>
+  <!-- BLOC de Navigation -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/api/recette/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><%- recette.nom %></li>
+    </ol>
+  </nav>
+
+  <!-- BLOC avec un grande div -->
+  <div class="row">
+    <!-- div  une image (à gauche) -->
+    <div class="col-12 col-md-4">
+      <img src="/uploads/<%- recette.image %>" class="img-fluid sticky-top" style="top: 20px;" alt="<%- recette.nom %>" loading="lazy">
+    </div>
+
+    <!-- div  de deux bloc (à droite de l'image) -->
+    <div class="col-12 col-md-8">
+      <!-- div  instruction de cuisson (description de la recette) -->
+      <div class="row">
+        <div class="col-12"><h1><%- recette.nom %></h1></div>
+        <div class="col-12 mb-4"><i class="bi bi-tag"></i> <%- recette.categorie %></div>
+        <div class="col-12" style="white-space: pre-line;">
+          <h4>Instructions de cuissons</h4>
+          <%- recette.description %>
+        </div>
+      </div>
+
+      <!-- div  de la boucle des ingrédiants -->
+      <div class="row pt-4">
+        <div class="col-12">
+          <h4>Ingredients</h4>
+          <ul class="list-group list-group-flush">
+            <!-- BOUCLE sur le tableau des Ingrediants de la recette -->
+            <% recette.tabIngrediants.forEach(function(itemIngredient, index){ %>
+              <li class="list-group-item"><%= itemIngredient %></li>
+            <% }) %>
+          </ul> 
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% } else { %>
+  <!-- SINON: pas de recette avec cette id -->
+  <p>aucune recette trouvé.</p>
+<% } %>

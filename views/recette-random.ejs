@@ -1,0 +1,22 @@
+<!-- ===========================================================================================
+// ESJ01_CRUD  /  dossier: C:\WORK\NODEJS\ESJ01_CRUD  /  fichier: views/recettes-random.ejs
+// ============================================================================================= -->
+<!-- dans body: PAGE rendu par le routeur recetteRoutes, fonction exploreRandom                  -->
+<h1 class="pb-4">Explore Random</h1>
+
+<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+  <!-- SI recette existe -->
+  <% if(locals.recette) { %>
+    <!-- lien vers une recette par son id -->
+    <a href="<%= urlUneRecetteParSonID + recette._id %>" class="col text-center category__link">
+      <div class="category__img category__img--large shadow">
+        <!-- image -->
+        <img src="<%= lienVersImage + recette.image %>" alt="<%= recette.nom %>" loading="lazy">
+      </div>
+      <div class="pt-1"><%= recette.nom %></div>
+    </a>
+  
+  <% } else { %>
+    <p>aucun élément trouvé.</p>
+  <% } %> 
+</div>
